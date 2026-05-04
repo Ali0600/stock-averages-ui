@@ -152,16 +152,16 @@ def main():
     # Sidebar inputs
     with st.sidebar:
         st.header("Settings")
-        ticker = st.text_input("Stock Ticker", value="AAPL").upper()
+        ticker = st.text_input("Stock Ticker", value="POET").upper()
         months = st.slider("Months of Data", min_value=1, max_value=12, value=3)
         analyze_btn = st.button("Analyze", type="primary", use_container_width=True)
 
-    # Initialize session state
-    if "analyzer" not in st.session_state:
+    # Initialize session state; auto-run the default ticker on the first page load.
+    auto_run = "analyzer" not in st.session_state
+    if auto_run:
         st.session_state.analyzer = None
 
-    # Analyze button clicked
-    if analyze_btn:
+    if analyze_btn or auto_run:
         if not ticker:
             st.error("Please enter a ticker symbol")
         else:
